@@ -10,7 +10,7 @@ export default function Search({ placeholder }: { placeholder: string }) {
   const { replace } = useRouter();
 
   const handleSearch = useDebouncedCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    let term = e.target.value;
+    const term = e.target.value;
     const params = new URLSearchParams(searchParams);
     if (term) {
       params.set("query", term);

@@ -1,4 +1,4 @@
-import { db } from '@vercel/postgres';
+import { db, VercelPoolClient } from '@vercel/postgres';
 import {
   CustomerField,
   CustomersTableType,
@@ -9,15 +9,15 @@ import {
 } from './definitions';
 import { formatCurrency } from './utils';
 
-var globalClient: null = null;
+let globalClient: VercelPoolClient;
 
 async function getClient() {
   if (globalClient) {
     return globalClient;
   }
   try {
-    const client = await db.connect();
-    return client;
+    globalClient = await db.connect();
+    return globalClient;
   } catch (error) {
     console.error('Failed to create database client:', error);
     throw new Error('Failed to create database client');
